@@ -3,6 +3,9 @@ package com.example.movieshare.models;
 import javax.persistence.*;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "MOVIES")
 public class Movie {
@@ -12,12 +15,26 @@ public class Movie {
     private String Name;
     private LocalDate realeaseDate;
     private URL photo;
+    @ManyToMany(cascade = {CascadeType.ALL})
+            @JoinTable(
+                    name = "Movies_Genres",joinColumns ={@JoinColumn(name = "MovieId")},
+                    inverseJoinColumns = {@JoinColumn(name = "IdGenre")}
+            )
+     Set<Genre> genres = new HashSet<>();
 
     public Movie(Long movieId, String name, LocalDate realeaseDate, URL photo) {
         MovieId = movieId;
         Name = name;
         this.realeaseDate = realeaseDate;
         this.photo = photo;
+    }
+
+    public Movie(Long movieId, String name, LocalDate realeaseDate, URL photo, Set<Genre> genres) {
+        MovieId = movieId;
+        Name = name;
+        this.realeaseDate = realeaseDate;
+        this.photo = photo;
+        this.genres = genres;
     }
 
     public Movie() {
@@ -53,6 +70,14 @@ public class Movie {
 
     public void setPhoto(URL photo) {
         this.photo = photo;
+    }
+
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 
     @Override
