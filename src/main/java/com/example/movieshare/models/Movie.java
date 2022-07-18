@@ -1,5 +1,7 @@
 package com.example.movieshare.models;
 
+import com.example.movieshare.service.CalculateRatingAverage;
+
 import javax.persistence.*;
 import java.net.URL;
 import java.time.LocalDate;
@@ -15,6 +17,9 @@ public class Movie {
     private String Name;
     private LocalDate realeaseDate;
     private URL photo;
+
+    private URL video;
+
     @ManyToMany(cascade = {CascadeType.ALL})
             @JoinTable(
                     name = "Movies_Genres",joinColumns ={@JoinColumn(name = "MovieId")},
@@ -22,6 +27,8 @@ public class Movie {
             )
      Set<Genre> genres = new HashSet<>();
 
+    @OneToMany(mappedBy="movie")
+    private Set<Rating> ratings;
     public Movie(Long movieId, String name, LocalDate realeaseDate, URL photo) {
         MovieId = movieId;
         Name = name;
@@ -38,6 +45,26 @@ public class Movie {
     }
 
     public Movie() {
+    }
+
+    public URL getVideo() {
+        return video;
+    }
+
+    public void setVideo(URL video) {
+        this.video = video;
+    }
+
+    public double getAvg(){
+        CalculateRatingAverage ratingAverage = new CalculateRatingAverage(ratings);
+        return (int)(ratingAverage.getAVG());
+    }
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
     }
 
     public Long getMovieId() {

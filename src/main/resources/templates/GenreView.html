@@ -1,63 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-
 <head>
     <meta charset="UTF-8">
-    <title>Movie List</title>
+    <title>Specific Genre</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
+
+    .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
     img {
         border-radius: 50%;
-
-    }
-    td{
-        font-size: 30px;
-        font-family: Georgia, serif;
-
     }
 </style>
 </head>
 <body>
-<ul class="nav justify-content-center">
-    <li class="nav-item">
-        <a class="nav-link active" href="/ranking">Ranking</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Login</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Invite</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Movie Share</a>
-    </li>
-</ul>
 
+<div class="row">
+    <div class="col-6">
+        <img th:src="${genre.genrePhoto}" style="width: 100vh ;height: 50vh" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
 
-
-<div class="container" style=" width: 100vh">
-    <div style="width: 100vh" class="row">
-        <tr th:each="gn: ${genres}">
-        <div  class="col">
-            <figure class="figure">
-                <img th:src="${gn.genrePhoto}" class="figure-img img-fluid rounded" style="height: 100px;width: 200px;        border: 5px solid #555;
-">
-                <form th:action="@{/selectCategory}">
-                    <button th:text="${gn.genreName}" type="submit" th:name="id" th:value="${gn.idGenre}" style="width: 200px"></button>
-                </form>
-            </figure>
-
-        </div>
-
-        </tr>
+    </div>
+    <div class="col-6">
+        <h2 class="container" th:text="${genre.genreName}" style="font-family: 'Fira Code',serif;font-size: 50px"></h2>
     </div>
 </div>
-
-
-<h2>Sort by:</h2>
-<a class="btn btn-warning" href="/byname" role="button">Name</a>
-<a class="btn btn-warning" href="/byDate" role="button">Date</a>
 
 <table class="table">
     <thead class="thead-dark">
@@ -66,32 +37,27 @@
         <th scope="col">Release Date</th>
         <th scope="col">Photo</th>
         <th scope="col">Ratings</th>
-        <th scope="col">Details</th>
+        <th scope="col">Show</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="mv: ${movies}">
+    <tr th:each="mv: ${setOfMovies}">
 
         <td th:text="${mv.name}"></td>
         <td th:text="${mv.realeaseDate}"></td>
         <td >    <img th:src="${mv.photo}" alt="Flowers in Chania" style="height: 100px;width: 100px">
         </td>
         <td th:text="${mv.getAvg() +' / 5.0'}"></td>
+
         <td>
             <form th:action="@{/details}">
                 <button th:text="Show" type="submit" th:name="id" th:value="${mv.movieId}" style="width: 200px"></button>
             </form>
         </td>
-
-
     </tr>
 
     </tbody>
 </table>
-
-
-
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
