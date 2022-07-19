@@ -12,6 +12,8 @@ public class CalculateRatingAverage {
     private IntSummaryStatistics stats;
 
 
+
+
     public CalculateRatingAverage(Set<Rating> ratingSet) {
         this.ratingSet = ratingSet;
         calculateAverage();

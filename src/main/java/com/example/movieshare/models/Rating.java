@@ -10,10 +10,19 @@ public class Rating {
     private Long idRating;
     private int starsCount;
 
+    private String comment;
+
     @ManyToOne
     @JoinColumn(name="MovieId", nullable=false)
     private Movie movie;
     public Rating() {
+    }
+
+    public Rating(Long idRating, int starsCount, String comment, Movie movie) {
+        this.idRating = idRating;
+        this.starsCount = starsCount;
+        this.comment = comment;
+        this.movie = movie;
     }
 
     public Rating(Long idRating, int starsCount) {
@@ -31,6 +40,22 @@ public class Rating {
 
     public int getStarsCount() {
         return starsCount;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 
     public void setStarsCount(int starsCount) {

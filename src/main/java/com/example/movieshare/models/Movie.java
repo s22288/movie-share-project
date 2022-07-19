@@ -1,9 +1,13 @@
 package com.example.movieshare.models;
 
 import com.example.movieshare.service.CalculateRatingAverage;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,12 +31,19 @@ public class Movie {
             )
      Set<Genre> genres = new HashSet<>();
 
+
     @OneToMany(mappedBy="movie")
     private Set<Rating> ratings;
     public Movie(Long movieId, String name, LocalDate realeaseDate, URL photo) {
         MovieId = movieId;
         Name = name;
         this.realeaseDate = realeaseDate;
+        this.photo = photo;
+    }
+
+
+    public Movie(String name, URL photo) {
+        Name = name;
         this.photo = photo;
     }
 
@@ -57,8 +68,12 @@ public class Movie {
 
     public double getAvg(){
         CalculateRatingAverage ratingAverage = new CalculateRatingAverage(ratings);
-        return (int)(ratingAverage.getAVG());
+        BigDecimal bd = BigDecimal.valueOf(ratingAverage.getAVG()).setScale(2, RoundingMode.HALF_UP);
+
+        return bd.doubleValue();
     }
+
+
     public Set<Rating> getRatings() {
         return ratings;
     }
@@ -99,6 +114,7 @@ public class Movie {
         this.photo = photo;
     }
 
+
     public Set<Genre> getGenres() {
         return genres;
     }
@@ -114,6 +130,9 @@ public class Movie {
                 ", Name='" + Name + '\'' +
                 ", realeaseDate=" + realeaseDate +
                 ", photo=" + photo +
+                ", video=" + video +
+                ", genres=" + genres +
+                ", ratings=" + ratings +
                 '}';
     }
 }
